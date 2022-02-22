@@ -11,9 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String url = Uri.parse("http://localhost/smarthome/login.php")
+        String url = Uri.parse(Config.URL + "login.php")
                 .buildUpon()
                 .appendQueryParameter("user",etUser.getText().toString())
                 .appendQueryParameter("pass", etPass.getText().toString())
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
-                       respuesta();
+                       respuesta(response);
                     }
                 }, new Response.ErrorListener(){
                     @Override
@@ -55,9 +57,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(peticion);
     }
 
-    private void respuesta(){
-
+    private void respuesta(JSONObject response){
+        try {
+            Toast.makeText(this, "Servidor contesto:" +
+                    response.getString("login"), Toast.LENGTH_SHORT).show();
+        }catch (Exception e){}
     }
 }
