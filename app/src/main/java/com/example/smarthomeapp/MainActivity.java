@@ -2,9 +2,11 @@ package com.example.smarthomeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("Server", error.getMessage());
                     }
                 });
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(peticion);
@@ -62,8 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void respuesta(JSONObject response){
         try {
-            Toast.makeText(this, "Servidor contesto:" +
-                    response.getString("login"), Toast.LENGTH_SHORT).show();
+            if(response.getString("login").compareTo("y")==0){
+                String jwt = response.getString("token");
+                SharedPreferences.Editor editor = sesion.edit();
+                editor.putString("user",etUser.getText().toString());
+                editor.putString("token", jwt);
+                editor.commit();
+                startActivity(new Intent(this, MainActivity2.class));
+            }else{
+                Toast.makeText(this, "Error de usuario o contraseña", Toast.LENGTH_SHORT).show();
+            }
         }catch (Exception e){}
     }
 }
