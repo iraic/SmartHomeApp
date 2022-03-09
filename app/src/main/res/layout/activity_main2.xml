@@ -13,6 +13,7 @@
         android:ems="10"
         android:hint="Tipo Sensor"
         android:inputType="textPersonName"
+        android:maxLength="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,22 +23,22 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Valor"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toEndOf="@+id/etTipo"
         app:layout_constraintTop_toTopOf="@+id/etTipo" />
 
     <Button
         android:id="@+id/bAdd"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/ic_baseline_add_circle_outline_24"
         app:layout_constraintStart_toEndOf="@+id/etValor"
         app:layout_constraintTop_toTopOf="@+id/etValor" />
 
     <Button
         android:id="@+id/bRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/ic_baseline_refresh_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bAdd" />
